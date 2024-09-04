@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
+	"go.uber.org/zap"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"github.com/sirupsen/logrus"
+	klogv1 "k8s.io/klog"
+	klogv2 "k8s.io/klog/v2"
 )
 
 var upgrader = websocket.Upgrader{
@@ -22,7 +26,15 @@ func WSEchoHandler(c *gin.Context) {
 		panic(err)
 	}
 
+	logrus.SetFormatter(&logrus.JSONFormatter{})
 	fmt.Println("新的ws已连接。。。", c.Request.RemoteAddr)
+	klogv2.Info("V2:新的ws已连接。。。", c.Request.RemoteAddr)
+	klogv1.Info("V1:新的ws已连接。。。", c.Request.RemoteAddr)
+	logrus.Info("logrus:新的ws已连接。。。", c.Request.RemoteAddr)
+	cf := zap.NewProductionConfig()
+	zap, _ := cf.Build()
+	zap.Info(fmt.Sprintf("zap:新的ws已连接：%s", c.Request.RemoteAddr))
+	zap.Info(fmt.Sprintf("zap:新的ws已连接：%s", c.Request.RemoteAddr))
 	// 消息处理循环
 	for {
 		mt, p, err := ws.ReadMessage()

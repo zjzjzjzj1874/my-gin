@@ -16,6 +16,6 @@ services:
     command: ./main
     privileged: true
     ports:
-      - "28888:28888"
+      - "18888:28888"
     networks:
       - gin
