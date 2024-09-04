@@ -1,62 +1,54 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/gorilla/websocket"
+	_ "embed"
+	"github/zjzjzjzj1874/my-gin/docs"
 	"net/http"
+
+	"github/zjzjzjzj1874/my-gin/controllers"
+	"github/zjzjzjzj1874/my-gin/middleware"
+
+	"github.com/gin-gonic/gin"
 )
 
+// @title           Swagger Example API
+// @version         1.0
+// @description     This is a sample server celler server.
+// @termsOfService  http://swagger.io/terms/
+// @schemes http
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @BasePath  /api/v1
+
+// @securityDefinitions.basic  BasicAuth
+
+// @externalDocs.description  OpenAPI
+// @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
 	app := gin.Default()
+	app.Use(middleware.Cors()) // 跨域设置
 
-	app.GET("/hello", func(c *gin.Context) {
-		// 输出Hello World
-		c.String(200, "Hello World")
+	app.GET("/swagger", func(c *gin.Context) {
+		// 输出swagger文件
+		c.Data(http.StatusOK, "text/plain; charset=utf-8", docs.SwaggerByte)
 	})
+
+	c := controllers.NewController()
+	v1 := app.Group("/api/v1")
+	{
+		accounts := v1.Group("/account")
+		{
+			accounts.GET("", c.ListAccounts)
+		}
+	}
 	app.GET("/echo", WSEchoHandler)
 
-	if err := app.Run(":9090"); err != nil {
+	if err := app.Run(":28888"); err != nil {
 		panic(err)
 	}
-}
-
-var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024,
-	WriteBufferSize: 1024,
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-}
-
-func WSEchoHandler(c *gin.Context) {
-	ws, err := upgrader.Upgrade(c.Writer, c.Request, nil)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println("新的ws已连接。。。", c.Request.RemoteAddr)
-	// 消息处理循环
-	for {
-		mt, p, err := ws.ReadMessage()
-		if err != nil {
-			fmt.Println(err.Error())
-			break
-		}
-
-		fmt.Println("message type:", mt)
-		fmt.Println("content:", string(p))
-
-		// 回应客户端，这里把消息回写到客户端即可
-		_, _ = c.Writer.Write(p)
-	}
-
-	fmt.Println("Close WS. Bye~")
-	_ = ws.Close()
-}
-
-func Hello(c *gin.Context) {
-	c.JSON(http.StatusOK, map[string]string{
-		"hello": "Gin",
-	})
 }
