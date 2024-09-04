@@ -2,10 +2,10 @@ package main
 
 import (
 	_ "embed"
-	"github/zjzjzjzj1874/my-gin/docs"
 	"net/http"
 
 	"github/zjzjzjzj1874/my-gin/controllers"
+	"github/zjzjzjzj1874/my-gin/docs"
 	"github/zjzjzjzj1874/my-gin/middleware"
 
 	"github.com/gin-gonic/gin"

@@ -8,11 +8,14 @@ WORKDIR /biuld
 
 COPY . .
 
-RUN go build -ldflags="-s -w" -o /app/main main.go
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o /app/main main.go ws.go
 
-FROM scratch
+FROM alpine
+
+RUN apk add tzdata
+ENV TZ=Asia/Shanghai
+
 WORKDIR /app
-
 COPY --from=builder /app/main /app/main
 
 CMD ["./main"]
