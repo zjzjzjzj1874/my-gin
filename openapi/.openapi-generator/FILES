@@ -1,0 +1,17 @@
+.gitignore
+.openapi-generator-ignore
+.travis.yml
+README.md
+api/openapi.yaml
+api_accounts.go
+client.go
+configuration.go
+docs/AccountsAPI.md
+docs/HelperHTTPError.md
+docs/ModelAccount.md
+git_push.sh
+model_helper_http_error.go
+model_model_account.go
+response.go
+test/api_accounts_test.go
+utils.go

@@ -1,0 +1,91 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+servers:
+- url: /api/v1
+paths:
+  /account:
+    get:
+      description: get accounts
+      parameters:
+      - description: name search by q
+        in: query
+        name: q
+        schema:
+          format: email
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/model.Account'
+                type: array
+          description: OK
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/helper.HTTPError'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/helper.HTTPError'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/helper.HTTPError'
+          description: Internal Server Error
+      summary: List accounts
+      tags:
+      - accounts
+components:
+  schemas:
+    helper.HTTPError:
+      example:
+        code: 400
+        message: status bad request
+      properties:
+        code:
+          example: 400
+          type: integer
+        message:
+          example: status bad request
+          type: string
+      type: object
+    model.Account:
+      example:
+        name: name
+        id: 6
+        age: 0
+      properties:
+        age:
+          type: integer
+        id:
+          type: integer
+        name:
+          type: string
+      type: object
+  securitySchemes:
+    BasicAuth:
+      scheme: basic
+      type: http
+x-original-swagger-version: "2.0"

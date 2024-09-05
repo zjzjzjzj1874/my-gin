@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"go.uber.org/zap"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"github.com/sirupsen/logrus"
+	"go.uber.org/zap"
 	klogv1 "k8s.io/klog"
 	klogv2 "k8s.io/klog/v2"
 )
