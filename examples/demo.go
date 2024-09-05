@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 
-	myclient "github/zjzjzjzj1874/my-gin/openapi"
+	myclient "github/zjzjzjzj1874/my-gin/openapi/mygin"
 
 	"github.com/sirupsen/logrus"
 )
