@@ -13,6 +13,8 @@ func Test_checkAuthenticator(t *testing.T) {
 		want bool
 	}{
 		{name: "checkAuthenticator", args: args{secret: "ZYTW3HLDFVV47QQN5UBDTL7PKGV6VPNR", otp: "628870"}, want: true},
+
+		{name: "checkAuthenticator", args: args{secret: "JVVMQ7WMQQI7MDYCIN3QLEEHVZGYUWMZ", otp: "505866"}, want: true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -32,7 +34,7 @@ func Test_genQR(t *testing.T) {
 		name string
 		args args
 	}{
-		{name: "genQR", args: args{issuer: "Cloud-Host", account: "user-zhangSan"}},
+		{name: "genQR", args: args{issuer: "Cloud-Host", account: "abcdef"}},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

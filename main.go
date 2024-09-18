@@ -9,6 +9,8 @@ import (
 	"github/zjzjzjzj1874/my-gin/middleware"
 
 	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @title           Swagger Example API
@@ -33,10 +35,12 @@ func main() {
 	app := gin.Default()
 	app.Use(middleware.Cors()) // 跨域设置
 
-	app.GET("/swagger", func(c *gin.Context) {
+	app.GET("/openapi", func(c *gin.Context) {
 		// 输出swagger文件
 		c.Data(http.StatusOK, "text/plain; charset=utf-8", docs.SwaggerByte)
 	})
+
+	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 
 	c := controllers.NewController()
 	v1 := app.Group("/api/v1")

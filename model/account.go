@@ -1,9 +1,9 @@
 package model
 
 type Account struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
-	Id   int    `json:"id"`
+	Name string `json:"name"` // 账户名称
+	Age  int    `json:"age"`  // 年龄
+	Id   int    `json:"id"`   // id
 }
 
 func List() ([]Account, error) {
